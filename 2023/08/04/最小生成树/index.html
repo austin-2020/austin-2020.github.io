@@ -1,0 +1,219 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>最小生成树 | 空城的贼窝</title><meta name="keywords" content="算法,图论"><meta name="author" content="空城,gli466731@gmail.com"><meta name="copyright" content="空城"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="最小生成树最小生成树是一个图论中的概念，用于解决连接带权无向图中所有节点的问题，并使得连接边的权重之和最小。 最小生成树的算法有很多种，其中最著名的算法是普里姆（Prim）算法和克鲁斯卡尔（Kruskal）算法。 普里姆算法从一个起始节点开始，逐步选择与当前生成树连接边权重最小的节点，并将其加入生成树中，直到连接所有节点为止。在这个过程中，始终保持生成树的连通性。 克鲁斯卡尔算法则是通过不断选择">
+<meta property="og:type" content="article">
+<meta property="og:title" content="最小生成树">
+<meta property="og:url" content="http://example.com/2023/08/04/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/index.html">
+<meta property="og:site_name" content="空城的贼窝">
+<meta property="og:description" content="最小生成树最小生成树是一个图论中的概念，用于解决连接带权无向图中所有节点的问题，并使得连接边的权重之和最小。 最小生成树的算法有很多种，其中最著名的算法是普里姆（Prim）算法和克鲁斯卡尔（Kruskal）算法。 普里姆算法从一个起始节点开始，逐步选择与当前生成树连接边权重最小的节点，并将其加入生成树中，直到连接所有节点为止。在这个过程中，始终保持生成树的连通性。 克鲁斯卡尔算法则是通过不断选择">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/6.gif">
+<meta property="article:published_time" content="2023-08-04T02:24:10.000Z">
+<meta property="article:modified_time" content="2023-08-04T05:34:59.073Z">
+<meta property="article:author" content="空城">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="图论">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/6.gif"><link rel="shortcut icon" href="/img/1.gif"><link rel="canonical" href="http://example.com/2023/08/04/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '最小生成树',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-08-04 13:34:59'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/6.gif')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">空城的贼窝</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">最小生成树</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-08-04T02:24:10.000Z" title="发表于 2023-08-04 10:24:10">2023-08-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-08-04T05:34:59.073Z" title="更新于 2023-08-04 13:34:59">2023-08-04</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="最小生成树"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><hr>
+<h1 id="最小生成树"><a href="#最小生成树" class="headerlink" title="最小生成树"></a>最小生成树</h1><p>最小生成树是一个图论中的概念，用于解决连接带权无向图中所有节点的问题，并使得连接边的权重之和最小。</p>
+<p>最小生成树的算法有很多种，其中最著名的算法是普里姆（Prim）算法和克鲁斯卡尔（Kruskal）算法。</p>
+<p>普里姆算法从一个起始节点开始，逐步选择与当前生成树连接边权重最小的节点，并将其加入生成树中，直到连接所有节点为止。在这个过程中，始终保持生成树的连通性。</p>
+<p>克鲁斯卡尔算法则是通过不断选择图中权重最小的边，将其加入生成树中，直到连接所有节点。在这个过程中，需要判断边的加入是否会形成回路，如果会，则舍弃该边，直到找到合适的边。</p>
+<p>最小生成树的应用场景包括网络设计、电力传输、路径规划等等，在这些场景中，我们希望以最小的成本连接所有节点，以提供最优的服务或解决方案。</p>
+<h2 id="树与图的区别"><a href="#树与图的区别" class="headerlink" title="树与图的区别"></a>树与图的区别</h2><p>树和图都是图论中的重要概念，它们之间有以下几个区别：</p>
+<ol>
+<li>结构形态：树是一种特殊的图，其中没有回路（环），即所有节点之间只有唯一的路径。而图则没有此限制，节点之间可以存在任意多的连接。</li>
+<li>连通性：树是连通的，即树中的任意两个节点之间都存在路径。而图可以是连通的，也可以是非连通的，只要存在节点之间无法到达的情况。</li>
+<li>节点关系：树中有一个特定的节点，称为根节点，其余节点都是根节点的后代。每个节点可能有零个或多个子节点，子节点之间没有直接连接。而图中的节点之间没有特定的关系，可以是任意连接形式。</li>
+<li>边的类型：树中的边是有方向的，即从根节点指向子节点。而图中的边可以是有向的或无向的，有向边具有方向性，无向边没有方向性。</li>
+<li>循环性：树中不存在回路，即不能从一个节点出发经过若干边再回到原节点。而图中可以存在回路，即经过若干边可以回到原节点，或者在一系列节点之间形成环。</li>
+</ol>
+<p>总之，树是一种特殊的图，具有更严格的结构限制和特定的节点关系，而图则没有这些限制，节点之间的连接和关系更加灵活。树主要用于表示层级关系或有序关系，而图常用于表示复杂的关系网络。</p>
+<h2 id="连通图"><a href="#连通图" class="headerlink" title="连通图"></a>连通图</h2><p>连通图是图论中的一个概念，指的是在一个无向图中，任意两个节点之间存在路径可以互相到达的图。</p>
+<p>具体来说，对于一个无向图 G&#x3D;(V, E)，其中 V 表示节点的集合，E 表示边的集合，如果对于图中的任意两个节点 u 和 v，都存在一个路径可以从节点 u 到达节点 v，那么这个图被称为连通图。</p>
+<p>连通图有许多性质和特点：</p>
+<ul>
+<li>在连通图中，任意两个节点之间都存在一条路径，因此可以通过遍历或搜索算法找到任意两个节点之间的路径。</li>
+<li>连通图中不存在孤立节点，即没有节点与其他节点相连。</li>
+<li>在连通图中，必然存在一个节点可以到达图中的所有其他节点，这样的节点被称为关键节点或者中心节点。</li>
+</ul>
+<p>与连通图相对的是非连通图，非连通图中存在两个或多个孤立的子图，这些子图之间无法通过路径相互到达。</p>
+<p>连通图在实际问题中有着广泛的应用，比如网络通信、社交网络分析、交通规划等。通过分析和研究连通图的特性，可以帮助我们更好地理解和解决与连通性相关的问题。</p>
+<ul>
+<li><p>代码实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isConnectedGraph</span><span class="params">()</span>&#123;</span><br><span class="line">        Set&lt;Integer&gt; set = <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;();</span><br><span class="line">        Queue&lt;Integer&gt; queue = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">        queue.offer(<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">while</span> (!queue.isEmpty())&#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">node</span> <span class="operator">=</span> queue.poll();</span><br><span class="line">            <span class="keyword">if</span> (set.contains(node))&#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            set.add(node);</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; vertices; i++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (matrix[node][i]!=<span class="number">0</span>)&#123;</span><br><span class="line">                    <span class="keyword">if</span> (!set.contains(i))&#123;</span><br><span class="line">                        queue.offer(i);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> set.size() == vertices;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="回路"><a href="#回路" class="headerlink" title="回路"></a>回路</h2><p>回路是指在图或者连通图中存在一条路径，可以从一个节点出发，经过若干条边，最终回到出发节点的情况。</p>
+<p>在无向图中，如果存在一条边连接了两个不同的节点，并且从其中一个节点出发，沿着路径可以再次到达该节点，那么就称这个图具有回路。</p>
+<p>在有向图中，回路定义为从一个节点出发，经过若干条有向边，最终回到原来的节点。</p>
+<p>具体来说，对于无向图，通过深度优先搜索或广度优先搜索等遍历算法，如果在搜索的过程中，遇到了已经访问过的节点，则可以判断存在回路。</p>
+<p>对于有向图，判断回路的常用方法是使用拓扑排序，如果在进行拓扑排序的过程中出现了环路（即节点的入度无法减为0），则说明存在回路。</p>
+<p>回路在图的理论和应用中具有重要意义，有时候我们需要判断一个图是否存在回路，或者需要找到图中的回路。例如在最小生成树算法中，如果出现了回路，则需要剔除回路中的边，以保持生成树的结构。</p>
+<p>总结起来，回路就是一条路径，可以从一个节点出发经过若干边最终回到原来的节点，存在于图中的概念之一。</p>
+<h2 id="Prim-算法"><a href="#Prim-算法" class="headerlink" title="Prim 算法"></a>Prim 算法</h2><p>Prim算法是一种用于解决带权无向图的最小生成树问题的贪心算法。它从一个起始节点开始，逐步选择与当前生成树连接的边中权重最小的那条边，将其加入生成树中，直到连接所有节点为止。在这个过程中，始终保持生成树的连通性。</p>
+<p>具体步骤如下：</p>
+<ol>
+<li>选择一个起始节点，将其标记为已选中。</li>
+<li>初始化一个空的生成树。</li>
+<li>重复以下步骤，直到将所有节点都加入生成树为止：<ul>
+<li>从已选中的节点中找到一条连接到未选中节点的最小权重的边。</li>
+<li>将该边加入生成树，并将连接的未选中节点标记为已选中。</li>
+</ul>
+</li>
+</ol>
+<p>Prim算法的核心思想是每次选择生成树中与未选中节点连接的最小权重的边，以保证生成树的权重最小。通过不断迭代，可以得到一个最小生成树。</p>
+<p>需要注意的是，Prim算法的实现可以使用最小堆或优先队列来高效地选择最小权重的边，以提高算法的效率。</p>
+<p>Prim算法的时间复杂度为O(|V|^2)或O(|E|log|V|)，其中|V|是节点数，|E|是边数。对于稀疏图来说，使用最小堆或优先队列的实现方式可以使时间复杂度降低到O(|E|log|V|)。</p>
+<p><img src="/2023/08/04/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/image-20230804105637815.png" alt="image-20230804105637815"></p>
+<ul>
+<li><p>代码实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> List&lt;<span class="type">int</span>[]&gt; prim() &#123;</span><br><span class="line">    <span class="keyword">if</span> (!isConnectedGraph()) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    List&lt;<span class="type">int</span>[]&gt; res = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    Set&lt;Integer&gt; u = <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;();</span><br><span class="line">    <span class="type">Random</span> <span class="variable">random</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Random</span>();</span><br><span class="line">    <span class="type">int</span> <span class="variable">initV</span> <span class="operator">=</span> random.nextInt(vertices);</span><br><span class="line">    PriorityQueue&lt;<span class="type">int</span>[]&gt; priorityQueue = <span class="keyword">new</span> <span class="title class_">PriorityQueue</span>&lt;&gt;((a, b) -&gt; Integer.compare(a[<span class="number">2</span>], b[<span class="number">2</span>]));</span><br><span class="line">    u.add(initV);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; vertices; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (matrix[initV][i] != <span class="number">0</span>) &#123;</span><br><span class="line">            priorityQueue.offer(<span class="keyword">new</span> <span class="title class_">int</span>[]&#123;initV, i, matrix[initV][i]&#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (!priorityQueue.isEmpty()) &#123;</span><br><span class="line">        <span class="type">int</span>[] e = priorityQueue.poll();</span><br><span class="line">        <span class="keyword">if</span> (u.contains(e[<span class="number">0</span>]) &amp;&amp; u.contains(e[<span class="number">1</span>])) &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        res.add(e);</span><br><span class="line">        <span class="keyword">if</span> (!u.contains(e[<span class="number">0</span>])) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; vertices; i++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (matrix[e[<span class="number">0</span>]][i] != <span class="number">0</span> &amp;&amp; !u.contains(i)) &#123;</span><br><span class="line">                    priorityQueue.offer(<span class="keyword">new</span> <span class="title class_">int</span>[]&#123;e[<span class="number">0</span>], i, matrix[e[<span class="number">0</span>]][i]&#125;);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!u.contains(e[<span class="number">1</span>])) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; vertices; i++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (matrix[e[<span class="number">1</span>]][i] != <span class="number">0</span> &amp;&amp; !u.contains(i)) &#123;</span><br><span class="line">                    priorityQueue.offer(<span class="keyword">new</span> <span class="title class_">int</span>[]&#123;e[<span class="number">1</span>], i, matrix[e[<span class="number">1</span>]][i]&#125;);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="Kruskal算法"><a href="#Kruskal算法" class="headerlink" title="Kruskal算法"></a>Kruskal算法</h2><p>Kruskal算法是一种用于解决最小生成树问题的贪心算法。它的基本思想是按照边的权重递增顺序处理，每次将权重最小且不会导致环路的边加入最小生成树中，直到生成树中包含所有节点为止。</p>
+<p>具体步骤如下：</p>
+<ol>
+<li>初始化一个空的最小生成树集合。</li>
+<li>将图中的所有边按照权重从小到大排序。</li>
+<li>遍历排序后的边，依次执行以下操作：<ul>
+<li>如果当前边不会导致最小生成树中出现环路，则将其加入最小生成树集合。</li>
+<li>否则，跳过该边。</li>
+</ul>
+</li>
+<li>当最小生成树集合中的边数等于节点数减1时，停止遍历。</li>
+<li>返回最小生成树集合作为结果。</li>
+</ol>
+<p>Kruskal算法的关键在于如何判断一条边是否会导致环路。常用的方法是使用并查集数据结构来维护当前最小生成树的连通性。通过检查边的两个端点是否属于同一个连通分量，可以判断是否会产生环路。</p>
+<p>Kruskal算法的时间复杂度主要取决于对边的排序操作，通常为O(ElogE)，其中E是边的数量。并查集的操作在这个过程中也会占用一部分时间，但通常可以忽略。</p>
+<p>Kruskal算法适用于稀疏图，即边的数量相对较少的情况。它相对简单且易于实现，适用于不需要具体路径信息的最小生成树问题。\</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> List&lt;<span class="type">int</span>[]&gt; kruskal()&#123;</span><br><span class="line">    <span class="keyword">if</span> (!isConnectedGraph()) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    Set&lt;Integer&gt; u = <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;();</span><br><span class="line">    PriorityQueue&lt;<span class="type">int</span>[]&gt; priorityQueue = <span class="keyword">new</span> <span class="title class_">PriorityQueue</span>&lt;&gt;((a, b) -&gt; Integer.compare(a[<span class="number">2</span>], b[<span class="number">2</span>]));</span><br><span class="line">    List&lt;<span class="type">int</span>[]&gt; res = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; vertices; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i+<span class="number">1</span>; j &lt;vertices ; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (matrix[i][j]!=<span class="number">0</span>)&#123;&#123;</span><br><span class="line">                priorityQueue.offer(<span class="keyword">new</span> <span class="title class_">int</span>[]&#123;i,j,matrix[i][j]&#125;);</span><br><span class="line">            &#125;&#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (u.size()!=vertices)&#123;</span><br><span class="line">        <span class="type">int</span>[] e = priorityQueue.poll();</span><br><span class="line">        <span class="keyword">if</span> (u.contains(e[<span class="number">0</span>])&amp;&amp;u.contains(e[<span class="number">1</span>]))&#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        u.add(e[<span class="number">0</span>]);</span><br><span class="line">        u.add(e[<span class="number">1</span>]);</span><br><span class="line">        res.add(e);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">空城</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/08/04/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/">http://example.com/2023/08/04/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">空城的贼窝</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%AE%97%E6%B3%95/">算法</a><a class="post-meta__tags" href="/tags/%E5%9B%BE%E8%AE%BA/">图论</a></div><div class="post_share"><div class="social-share" data-image="/img/6.gif" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/gh/overtrue/share.js@master/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/08/03/%E7%A8%B3%E5%AE%9A%E5%A9%9A%E5%A7%BB%E7%AE%97%E6%B3%95/"><img class="next-cover" src="/img/7.gif" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">稳定婚姻算法</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/07/27/%E5%B8%B8%E8%A7%81%E7%9A%84%E7%BD%91%E7%BB%9C%E6%B5%81%E7%AE%97%E6%B3%95/" title="常见的网络流算法"><img class="cover" src="/img/6.gif" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-27</div><div class="title">常见的网络流算法</div></div></a></div><div><a href="/2023/07/28/%E6%9C%80%E5%A4%A7%E6%B5%81%E9%97%AE%E9%A2%98/" title="最大流问题"><img class="cover" src="/img/6.gif" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-28</div><div class="title">最大流问题</div></div></a></div><div><a href="/2023/07/28/%E5%9B%BE%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E5%92%8C%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" title="图的基本概念和数据结构"><img class="cover" src="/img/5.gif" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-28</div><div class="title">图的基本概念和数据结构</div></div></a></div><div><a href="/2023/07/31/%E5%9B%BE%E4%B8%AD%E7%9A%84%E8%B7%AF%E5%BE%84%E5%92%8C%E6%9C%80%E7%9F%AD%E8%B7%AF%E2%80%98/" title="图中的路径和最短路‘"><img class="cover" src="/img/4.gif" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-31</div><div class="title">图中的路径和最短路‘</div></div></a></div><div><a href="/2023/08/02/%E5%93%88%E5%AF%86%E5%B0%94%E9%A1%BF%E5%9B%9E%E8%B7%AF/" title="哈密尔顿回路"><img class="cover" src="/img/1.gif" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-08-02</div><div class="title">哈密尔顿回路</div></div></a></div><div><a href="/2023/08/03/%E7%A8%B3%E5%AE%9A%E5%A9%9A%E5%A7%BB%E7%AE%97%E6%B3%95/" title="稳定婚姻算法"><img class="cover" src="/img/7.gif" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-08-03</div><div class="title">稳定婚姻算法</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">空城</div><div class="author-info__description">不止生活，还有热爱</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/austin-2020" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:1302943429@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91"><span class="toc-number">1.</span> <span class="toc-text">最小生成树</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%91%E4%B8%8E%E5%9B%BE%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.1.</span> <span class="toc-text">树与图的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9E%E9%80%9A%E5%9B%BE"><span class="toc-number">1.2.</span> <span class="toc-text">连通图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9E%E8%B7%AF"><span class="toc-number">1.3.</span> <span class="toc-text">回路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Prim-%E7%AE%97%E6%B3%95"><span class="toc-number">1.4.</span> <span class="toc-text">Prim 算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kruskal%E7%AE%97%E6%B3%95"><span class="toc-number">1.5.</span> <span class="toc-text">Kruskal算法</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/08/04/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/" title="最小生成树"><img src="/img/6.gif" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="最小生成树"/></a><div class="content"><a class="title" href="/2023/08/04/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/" title="最小生成树">最小生成树</a><time datetime="2023-08-04T02:24:10.000Z" title="发表于 2023-08-04 10:24:10">2023-08-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/08/03/%E7%A8%B3%E5%AE%9A%E5%A9%9A%E5%A7%BB%E7%AE%97%E6%B3%95/" title="稳定婚姻算法"><img src="/img/7.gif" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="稳定婚姻算法"/></a><div class="content"><a class="title" href="/2023/08/03/%E7%A8%B3%E5%AE%9A%E5%A9%9A%E5%A7%BB%E7%AE%97%E6%B3%95/" title="稳定婚姻算法">稳定婚姻算法</a><time datetime="2023-08-03T02:33:38.000Z" title="发表于 2023-08-03 10:33:38">2023-08-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/08/02/%E5%93%88%E5%AF%86%E5%B0%94%E9%A1%BF%E5%9B%9E%E8%B7%AF/" title="哈密尔顿回路"><img src="/img/1.gif" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="哈密尔顿回路"/></a><div class="content"><a class="title" href="/2023/08/02/%E5%93%88%E5%AF%86%E5%B0%94%E9%A1%BF%E5%9B%9E%E8%B7%AF/" title="哈密尔顿回路">哈密尔顿回路</a><time datetime="2023-08-02T07:54:39.000Z" title="发表于 2023-08-02 15:54:39">2023-08-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/08/01/JAVA-LinkedList%E8%A7%A3%E6%9E%90/" title="JAVA-LinkedList解析"><img src="/img/8.gif" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JAVA-LinkedList解析"/></a><div class="content"><a class="title" href="/2023/08/01/JAVA-LinkedList%E8%A7%A3%E6%9E%90/" title="JAVA-LinkedList解析">JAVA-LinkedList解析</a><time datetime="2023-08-01T05:48:02.000Z" title="发表于 2023-08-01 13:48:02">2023-08-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/31/%E5%9B%BE%E4%B8%AD%E7%9A%84%E8%B7%AF%E5%BE%84%E5%92%8C%E6%9C%80%E7%9F%AD%E8%B7%AF%E2%80%98/" title="图中的路径和最短路‘"><img src="/img/4.gif" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图中的路径和最短路‘"/></a><div class="content"><a class="title" href="/2023/07/31/%E5%9B%BE%E4%B8%AD%E7%9A%84%E8%B7%AF%E5%BE%84%E5%92%8C%E6%9C%80%E7%9F%AD%E8%B7%AF%E2%80%98/" title="图中的路径和最短路‘">图中的路径和最短路‘</a><time datetime="2023-07-31T00:44:51.000Z" title="发表于 2023-07-31 08:44:51">2023-07-31</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 空城</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>

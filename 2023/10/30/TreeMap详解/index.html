@@ -1,0 +1,189 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>TreeMap详解 | 空城的贼窝</title><meta name="keywords" content="JAVA"><meta name="author" content="空城,gli466731@gmail.com"><meta name="copyright" content="空城"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="TreeMap 详解TreeMap 的结构与常见用法：​	TreeMap 顾名思义，既是一棵树，也是一个map 。TreeMap与常见的通过桶加链表或者红黑树的 HashMap 不同，它是通过维护一棵红黑树来实现的映射关系，这也就导致TreeMap的查找效率比起常见的 Hash 散列 O(1) 的时间复杂度低，时间复杂度为 log(n) 。作为一个 map 结构显然是不合理的。但作为一棵树，它最">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TreeMap详解">
+<meta property="og:url" content="http://example.com/2023/10/30/TreeMap%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="空城的贼窝">
+<meta property="og:description" content="TreeMap 详解TreeMap 的结构与常见用法：​	TreeMap 顾名思义，既是一棵树，也是一个map 。TreeMap与常见的通过桶加链表或者红黑树的 HashMap 不同，它是通过维护一棵红黑树来实现的映射关系，这也就导致TreeMap的查找效率比起常见的 Hash 散列 O(1) 的时间复杂度低，时间复杂度为 log(n) 。作为一个 map 结构显然是不合理的。但作为一棵树，它最">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/3.gif">
+<meta property="article:published_time" content="2023-10-30T00:14:19.000Z">
+<meta property="article:modified_time" content="2023-10-30T01:06:05.642Z">
+<meta property="article:author" content="空城">
+<meta property="article:tag" content="JAVA">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/3.gif"><link rel="shortcut icon" href="/img/1.gif"><link rel="canonical" href="http://example.com/2023/10/30/TreeMap%E8%AF%A6%E8%A7%A3/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'TreeMap详解',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-10-30 09:06:05'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">17</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/3.gif')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">空城的贼窝</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">TreeMap详解</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-10-30T00:14:19.000Z" title="发表于 2023-10-30 08:14:19">2023-10-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-10-30T01:06:05.642Z" title="更新于 2023-10-30 09:06:05">2023-10-30</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/JAVA/">JAVA</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="TreeMap详解"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><hr>
+<h1 id="TreeMap-详解"><a href="#TreeMap-详解" class="headerlink" title="TreeMap 详解"></a>TreeMap 详解</h1><h2 id="TreeMap-的结构与常见用法："><a href="#TreeMap-的结构与常见用法：" class="headerlink" title="TreeMap 的结构与常见用法："></a>TreeMap 的结构与常见用法：</h2><p>​	<code>TreeMap</code> 顾名思义，既是一棵树，也是一个<code>map</code> 。<code>TreeMap</code>与常见的通过桶加链表或者红黑树的 <code>HashMap</code> 不同，它是通过维护一棵红黑树来实现的映射关系，这也就导致<code>TreeMap</code>的查找效率比起常见的 Hash 散列 O(1) 的时间复杂度低，时间复杂度为 log(n) 。作为一个 map 结构显然是不合理的。但作为一棵树，它最核心的竞争力就是有序性，比起其他的Map,在遍历上可以有序的遍历，以及可以通过 log(n) 的时间或者最大值、最小值。</p>
+<ul>
+<li><p><strong>Map</strong></p>
+<p>在 JAVA 中 Map 类型都实现了 <code>interface Map&lt;K, V&gt; </code> 接口，这个接口包含了对于键值数据的增删改查等操作</p>
+</li>
+<li><p><strong>Tree</strong></p>
+<p>红黑树（Red-Black Tree）是一种自平衡的二叉查找树，它在插入和删除节点时通过一系列的旋转和重新着色操作来保持树的平衡。而”平衡的二叉查找树”这个概念并不是特指某一种具体的树结构，而是泛指满足平衡性质的二叉查找树。</p>
+<p>下面是红黑树与平衡的二叉查找树之间的主要区别：</p>
+<ol>
+<li>平衡性质：红黑树是一种自平衡的二叉查找树，它通过保持以下几个性质来维持平衡：（1）每个节点要么是红色，要么是黑色；（2）根节点是黑色；（3）每个叶子节点（NIL节点）都是黑色；（4）如果一个节点是红色的，则它的两个子节点都是黑色的；（5）对任意节点，从该节点到其所有后代叶子节点的简单路径上，均包含相同数量的黑色节点。而平衡的二叉查找树则是指在插入和删除节点后，树的高度保持较小的范围，以保证查找的效率。</li>
+<li>插入和删除操作：红黑树在插入和删除节点时，通过旋转和重新着色操作来维持树的平衡性质。当插入或删除节点后，红黑树会根据情况进行左旋、右旋、颜色变换等操作，以确保树的平衡性质得到满足。而平衡的二叉查找树可以采用不同的方法来处理插入和删除操作，例如AVL树使用平衡因子进行调整，而Treap树使用随机优先级来平衡。</li>
+<li>性能：在一般情况下，红黑树的插入、删除和查找操作的时间复杂度都是O(log n)，其中n是树中节点的数量。红黑树相对于某些其他平衡的二叉查找树（如AVL树）来说，插入和删除操作的代价要小一些，但查找操作的性能可能略差。这是因为红黑树为了维持平衡性质，在插入和删除操作时可能需要进行更多的旋转和重新着色操作。</li>
+</ol>
+<p>总的来说，红黑树是一种特定的自平衡二叉查找树，它通过旋转和重新着色操作来保持平衡性质。而”平衡的二叉查找树”这个概念则泛指满足平衡性质的二叉查找树，可以有多种具体的实现方式，如AVL树、Treap树等。不同的平衡二叉查找树在插入和删除操作的代价、查找操作的性能等方面可能有所区别。</p>
+<p><strong>为什么要着色</strong></p>
+<p>在红黑树中，节点的着色是用来满足红黑树的平衡性质的一种手段。通过节点的着色，可以保证树的高度相对较小，从而维持较快的查找、插入和删除操作。</p>
+<p>具体地说，红黑树的着色规则如下：</p>
+<ol>
+<li>每个节点要么是红色，要么是黑色。</li>
+<li>根节点必须是黑色。</li>
+<li>如果一个节点是红色的，则它的两个子节点都是黑色的。</li>
+<li>对任意节点，从该节点到其所有后代叶子节点的简单路径上，均包含相同数量的黑色节点。</li>
+</ol>
+<p>这些着色规则确保了红黑树的关键性质，即黑色节点的数量与树的高度相关。由于红黑树的平衡性质与树的高度有关，而树的高度又直接影响了查找、插入和删除操作的性能，所以通过着色来维护平衡性质是非常重要的。</p>
+<p>着色的操作在插入和删除节点时起到关键作用。当插入一个节点时，为了维持红黑树的平衡性质，可能需要进行节点的着色、旋转等操作。同样，在删除节点时，也可能需要进行节点的着色、旋转等操作来保持平衡。</p>
+<p>通过合理的着色操作，红黑树可以保持相对平衡的结构，从而在最坏情况下具有较高的查找、插入和删除效率。因此，着色是红黑树中实现平衡性质的重要手段之一。</p>
+</li>
+</ul>
+<h3 id="用法示例"><a href="#用法示例" class="headerlink" title="用法示例"></a><strong>用法示例</strong></h3><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit/">1438. 绝对差不超过限制的最长连续子数组</a></p>
+<p>1672</p>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/contest/weekly-contest-187">第 187 场周赛</a>[Q3](<a target="_blank" rel="noopener" href="https://leetcode.cn/contest/weekly-contest-187/problems/longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit">https://leetcode.cn/contest/weekly-contest-187/problems/longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit</a></p>
+<p>给你一个整数数组 <code>nums</code> ，和一个表示限制的整数 <code>limit</code>，请你返回最长连续子数组的长度，该子数组中的任意两个元素之间的绝对差必须小于或者等于 <code>limit</code> <em>。</em></p>
+<p>如果不存在满足条件的子数组，则返回 <code>0</code> </p>
+<ul>
+<li><p>题解</p>
+<p>对于这个题目，反回满足 <strong>最大值</strong>与<strong>最小值</strong>的差小于或者等于 <code>limit</code> *的最长连续子数组的长度,可以通过<code>TreeMap</code>来维护一个滑动窗口的计数器，每次窗口向右移动一位，然后维护窗口的合法性</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">longestSubarray</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> limit)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> nums.length;</span><br><span class="line">        TreeMap&lt;Integer,Integer&gt; map = <span class="keyword">new</span> <span class="title class_">TreeMap</span>&lt;&gt;();</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> <span class="number">0</span>,r = <span class="number">0</span>, ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (r&lt;n)&#123;</span><br><span class="line">            map.put(nums[r],map.getOrDefault(nums[r],<span class="number">0</span>)+<span class="number">1</span>);</span><br><span class="line">            <span class="keyword">while</span> (map.lastKey() - map.firstKey() &gt;limit)&#123;</span><br><span class="line">                map.put(nums[l],map.get(nums[l])-<span class="number">1</span>);</span><br><span class="line">                <span class="keyword">if</span> (map.get(nums[l]) == <span class="number">0</span>)&#123;</span><br><span class="line">                    map.remove(nums[l]);</span><br><span class="line">                &#125;</span><br><span class="line">                l++;</span><br><span class="line">            &#125;</span><br><span class="line">            ans = Math.max(ans,r-l+<span class="number">1</span>);</span><br><span class="line">            r++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="TreeMap-源码详解"><a href="#TreeMap-源码详解" class="headerlink" title="TreeMap 源码详解"></a>TreeMap 源码详解</h2><p>作为一个 <code>Map</code> 常见的操作包括 <code>get()</code>、<code>put()</code>、<code>remove()</code>、<code>containsKey()</code>等，而作为一棵红黑树还得考虑到在树的结构发生改变时，通过调整使得查找树重新满足红黑树的约束条件。。</p>
+<p>可以参考，</p>
+<p><a target="_blank" rel="noopener" href="https://pdai.tech/md/java/collection/java-map-TreeMap&TreeSet.html">Map - TreeSet &amp; TreeMap 源码解析 | Java 全栈知识体系 (pdai.tech)</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">空城</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/10/30/TreeMap%E8%AF%A6%E8%A7%A3/">http://example.com/2023/10/30/TreeMap%E8%AF%A6%E8%A7%A3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">空城的贼窝</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/JAVA/">JAVA</a></div><div class="post_share"><div class="social-share" data-image="/img/3.gif" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/gh/overtrue/share.js@master/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/08/09/A-%E7%AE%97%E6%B3%95-%E5%AF%BB%E6%89%BE%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84/"><img class="next-cover" src="/img/4.gif" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">A*算法--寻找最短路径</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/07/28/JAVA-ArrayList%E8%A7%A3%E6%9E%90/" title="JAVA-ArrayList解析"><img class="cover" src="/img/12.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-28</div><div class="title">JAVA-ArrayList解析</div></div></a></div><div><a href="/2023/08/01/JAVA-LinkedList%E8%A7%A3%E6%9E%90/" title="JAVA-LinkedList解析"><img class="cover" src="/img/8.gif" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-08-01</div><div class="title">JAVA-LinkedList解析</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">空城</div><div class="author-info__description">不止生活，还有热爱</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">17</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/austin-2020" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:1302943429@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#TreeMap-%E8%AF%A6%E8%A7%A3"><span class="toc-number">1.</span> <span class="toc-text">TreeMap 详解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#TreeMap-%E7%9A%84%E7%BB%93%E6%9E%84%E4%B8%8E%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">TreeMap 的结构与常见用法：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%B3%95%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.1.1.</span> <span class="toc-text">用法示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TreeMap-%E6%BA%90%E7%A0%81%E8%AF%A6%E8%A7%A3"><span class="toc-number">1.2.</span> <span class="toc-text">TreeMap 源码详解</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/10/30/TreeMap%E8%AF%A6%E8%A7%A3/" title="TreeMap详解"><img src="/img/3.gif" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TreeMap详解"/></a><div class="content"><a class="title" href="/2023/10/30/TreeMap%E8%AF%A6%E8%A7%A3/" title="TreeMap详解">TreeMap详解</a><time datetime="2023-10-30T00:14:19.000Z" title="发表于 2023-10-30 08:14:19">2023-10-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/08/09/A-%E7%AE%97%E6%B3%95-%E5%AF%BB%E6%89%BE%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84/" title="A*算法--寻找最短路径"><img src="/img/4.gif" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="A*算法--寻找最短路径"/></a><div class="content"><a class="title" href="/2023/08/09/A-%E7%AE%97%E6%B3%95-%E5%AF%BB%E6%89%BE%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84/" title="A*算法--寻找最短路径">A*算法--寻找最短路径</a><time datetime="2023-08-09T02:26:08.000Z" title="发表于 2023-08-09 10:26:08">2023-08-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/08/04/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/" title="最小生成树"><img src="/img/6.gif" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="最小生成树"/></a><div class="content"><a class="title" href="/2023/08/04/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/" title="最小生成树">最小生成树</a><time datetime="2023-08-04T02:24:10.000Z" title="发表于 2023-08-04 10:24:10">2023-08-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/08/03/%E7%A8%B3%E5%AE%9A%E5%A9%9A%E5%A7%BB%E7%AE%97%E6%B3%95/" title="稳定婚姻算法"><img src="/img/7.gif" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="稳定婚姻算法"/></a><div class="content"><a class="title" href="/2023/08/03/%E7%A8%B3%E5%AE%9A%E5%A9%9A%E5%A7%BB%E7%AE%97%E6%B3%95/" title="稳定婚姻算法">稳定婚姻算法</a><time datetime="2023-08-03T02:33:38.000Z" title="发表于 2023-08-03 10:33:38">2023-08-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/08/02/%E5%93%88%E5%AF%86%E5%B0%94%E9%A1%BF%E5%9B%9E%E8%B7%AF/" title="哈密尔顿回路"><img src="/img/1.gif" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="哈密尔顿回路"/></a><div class="content"><a class="title" href="/2023/08/02/%E5%93%88%E5%AF%86%E5%B0%94%E9%A1%BF%E5%9B%9E%E8%B7%AF/" title="哈密尔顿回路">哈密尔顿回路</a><time datetime="2023-08-02T07:54:39.000Z" title="发表于 2023-08-02 15:54:39">2023-08-02</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 空城</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
